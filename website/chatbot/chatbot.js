@@ -218,6 +218,33 @@
     msgs.scrollTop = msgs.scrollHeight;
   }
 
+  /* ── MOBILE RESPONSIVE STYLES ── */
+  (function(){
+    const s = document.createElement('style');
+    s.textContent = `
+      @media(max-width:600px){
+        #sj-cb-root{bottom:16px !important;right:16px !important;}
+        #sj-cb-panel{
+          position:fixed !important;
+          width:100vw !important;max-width:100vw !important;
+          left:0 !important;right:0 !important;bottom:0 !important;
+          height:85vh !important;
+          height:85dvh !important;
+          border-radius:20px 20px 0 0 !important;
+          overflow:hidden !important;
+        }
+        #sj-cb-input-row{
+          padding:10px 12px !important;
+          padding-bottom:max(10px,env(safe-area-inset-bottom,0px)) !important;
+          flex-shrink:0 !important;
+        }
+        #sj-cb-send{width:44px !important;height:44px !important;}
+        #sj-cb-inp{font-size:16px !important;padding:12px 14px !important;}
+      }
+    `;
+    document.head.appendChild(s);
+  })();
+
   /* ── BUILD UI ── */
   const root = el('div',
     `position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;align-items:flex-end;`
@@ -225,6 +252,7 @@
   root.id = 'sj-cb-root';
 
   const panel = el('div', null);
+  panel.id = 'sj-cb-panel';
   panel.setAttribute('style',
     `width:420px;height:580px;border-radius:16px;overflow:hidden;display:none;` +
     `flex-direction:column;` +
@@ -267,7 +295,9 @@
   const inputRow = el('div',
     `display:flex;gap:8px;padding:12px 14px;border-top:1px solid ${G.border};background:${G.black};`
   );
+  inputRow.id = 'sj-cb-input-row';
   const inp = el('input', null);
+  inp.id = 'sj-cb-inp';
   inp.type = 'text';
   inp.placeholder = 'Ihre Nachricht ...';
   inp.setAttribute('style',
@@ -284,6 +314,7 @@
     `transition:background 160ms,transform 150ms;`,
     `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2.5" stroke-linecap="round"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>`
   );
+  sendBtn.id = 'sj-cb-send';
   sendBtn.onmouseenter = () => { sendBtn.style.background = G.goldLt; sendBtn.style.transform = 'scale(1.08)'; };
   sendBtn.onmouseleave = () => { sendBtn.style.background = G.gold; sendBtn.style.transform = 'scale(1)'; };
 
@@ -323,6 +354,7 @@
     open = !open;
     panel.style.display = open ? 'flex' : 'none';
     dot.style.display = open ? 'none' : 'block';
+    btn.style.display = (open && window.innerWidth <= 600) ? 'none' : 'flex';
     if (open && msgs.children.length === 0) {
       bState = 'treatment';
       bData = {};
