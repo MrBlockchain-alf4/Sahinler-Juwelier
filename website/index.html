@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sahinler Juwelier – Schmuck &amp; Uhren in Hagen</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'DM Sans',sans-serif;color:#0a0a0a;background:#fff;line-height:1.6;-webkit-font-smoothing:antialiased;}
+
+    :root{
+      --black:      #0a0a0a;
+      --black-mid:  #141414;
+      --black-soft: #1e1e1e;
+      --black-card: #111111;
+      --white:      #ffffff;
+      --off-white:  #f9f6ef;
+      --cream:      #f2ede0;
+      --gold:       #D4AF37;
+      --gold-light: #e4c54a;
+      --gold-dim:   rgba(212,175,55,0.12);
+      --gold-glow:  rgba(212,175,55,0.28);
+      --gold-border:rgba(212,175,55,0.35);
+      --text-dark:  #0a0a0a;
+      --text-muted: #777777;
+      --text-light: #bbbbbb;
+      --border-dark:#252525;
+      --border-light:#e5dfc8;
+    }
+
+    /* ── NAV ── */
+    .nav{
+      position:fixed;top:0;left:0;right:0;z-index:100;
+      padding:0 64px;height:80px;
+      display:flex;align-items:center;justify-content:space-between;
+      transition:background 300ms ease,box-shadow 300ms ease;
+    }
+    .nav.scrolled{
+      background:rgba(10,10,10,0.96);backdrop-filter:blur(12px);
+      box-shadow:0 1px 0 rgba(212,175,55,0.15);
+    }
+    .nav-logo{
+      font-family:'Cormorant Garamond',serif;
+      font-size:20px;font-weight:600;letter-spacing:0.14em;
+      color:#fff;text-decoration:none;text-transform:uppercase;white-space:nowrap;
+    }
+    .nav-logo .dot{color:var(--gold);}
+    .nav-links{list-style:none;display:flex;gap:32px;align-items:center;}
+    .nav-links a{
+      font-size:11px;font-weight:500;letter-spacing:0.1em;
+      text-transform:uppercase;color:rgba(255,255,255,0.65);
+      text-decoration:none;transition:color 200ms;
+    }
+    .nav-links a:hover{color:#fff;}
+    .nav-cta{
+      padding:10px 24px;background:var(--gold);color:var(--black) !important;
+      font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+      border-radius:2px;transition:background 200ms,transform 160ms;cursor:pointer;
+    }
+    .nav-cta:hover{background:var(--gold-light) !important;transform:translateY(-1px);}
+    .nav-cta:active{transform:translateY(0);}
+
+    /* ── HERO ── */
+    .hero{
+      min-height:100vh;background:var(--black);
+      display:grid;grid-template-columns:1fr 1fr;
+      align-items:center;padding:104px 80px 80px;
+      position:relative;overflow:hidden;
+    }
+    .hero::before{
+      content:'';position:absolute;inset:0;pointer-events:none;
+      background:radial-gradient(ellipse 80% 80% at 75% 50%,rgba(212,175,55,0.05) 0%,transparent 70%);
+    }
+    .hero-left{position:relative;z-index:1;padding-right:60px;}
+    .hero-eyebrow{
+      font-size:10px;font-weight:600;letter-spacing:0.3em;
+      text-transform:uppercase;color:var(--gold);margin-bottom:24px;
+    }
+    .hero-h1{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(42px,5vw,70px);font-weight:300;
+      line-height:1.08;letter-spacing:-0.01em;
+      color:#fff;margin-bottom:28px;
+    }
+    .hero-h1 em{font-style:italic;color:var(--gold);}
+    .hero-sub{
+      font-size:16px;line-height:1.8;color:var(--text-light);
+      max-width:400px;margin-bottom:44px;font-weight:300;
+    }
+    .hero-ctas{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:48px;}
+    .btn-gold{
+      display:inline-block;padding:14px 32px;
+      background:var(--gold);color:var(--black);
+      font-size:11px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;
+      border-radius:2px;text-decoration:none;
+      transition:background 200ms,transform 160ms,box-shadow 200ms;
+      box-shadow:0 4px 20px rgba(212,175,55,0.25);
+    }
+    .btn-gold:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,175,55,0.35);}
+    .btn-gold:active{transform:translateY(0);}
+    .btn-ghost{
+      display:inline-block;padding:13px 28px;
+      border:1px solid rgba(255,255,255,0.22);color:rgba(255,255,255,0.75);
+      font-size:11px;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;
+      border-radius:2px;text-decoration:none;
+      transition:border-color 200ms,color 200ms,transform 160ms;
+    }
+    .btn-ghost:hover{border-color:var(--gold);color:var(--gold);transform:translateY(-1px);}
+    .hero-rating{display:flex;align-items:center;gap:12px;}
+    .hero-stars{color:var(--gold);font-size:15px;letter-spacing:2px;}
+    .hero-rating-text{font-size:12px;color:var(--text-light);}
+    .hero-rating-num{color:#fff;font-weight:600;}
+
+    .hero-right{position:relative;z-index:1;display:flex;justify-content:center;}
+    .hero-img-wrap{
+      position:relative;
+      width:clamp(260px,36vw,460px);
+    }
+    .hero-img-wrap::before{
+      content:'';position:absolute;
+      top:24px;right:-24px;bottom:-24px;left:24px;
+      border:1px solid var(--gold-border);border-radius:2px;z-index:0;
+    }
+    .hero-img-wrap img{
+      width:100%;aspect-ratio:3/4;object-fit:cover;
+      display:block;border-radius:2px;position:relative;z-index:1;
+      box-shadow:0 40px 80px rgba(0,0,0,0.7),0 8px 24px rgba(0,0,0,0.5);
+    }
+    .hero-img-glow{
+      position:absolute;inset:0;z-index:2;border-radius:2px;
+      background:linear-gradient(135deg,rgba(212,175,55,0.10) 0%,transparent 55%);
+      pointer-events:none;
+    }
+
+    /* ── SHARED ── */
+    .sec-eyebrow{
+      font-size:10px;font-weight:600;letter-spacing:0.25em;
+      text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+    }
+    .sec-h2{
+      font-family:'Cormorant Garamond',serif;
+      font-size:clamp(32px,3.8vw,50px);font-weight:300;
+      line-height:1.15;letter-spacing:-0.01em;
+    }
+    .sec-h2 em{font-style:italic;font-weight:300;}
+
+    /* ── ÜBER UNS ── */
+    .about{padding:120px 80px;background:var(--off-white);}
+    .about-inner{
+      max-width:1280px;margin:0 auto;
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:80px;align-items:center;
+    }
+    .about-text .sec-h2{color:var(--black);margin-bottom:28px;}
+    .about-desc{font-size:15.5px;line-height:1.85;color:var(--text-muted);margin-bottom:18px;font-weight:300;}
+    .about-stats{
+      display:flex;gap:40px;margin-top:40px;
+      padding-top:32px;border-top:1px solid var(--border-light);
+    }
+    .about-stat-num{
+      font-family:'Cormorant Garamond',serif;
+      font-size:40px;font-weight:300;color:var(--gold);
+      line-height:1;margin-bottom:4px;
+    }
+    .about-stat-lbl{font-size:10px;font-weight:500;color:var(--text-muted);letter-spacing:0.1em;text-transform:uppercase;}
+    .about-img-wrap{position:relative;border-radius:2px;overflow:hidden;}
+    .about-img-wrap img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;object-position:top center;}
+    .about-img-overlay{
+      position:absolute;inset:0;
+      background:linear-gradient(180deg,transparent 55%,rgba(10,10,10,0.45) 100%);
+    }
+
+    /* ── SERVICES ── */
+    .services{padding:120px 80px;background:var(--black);}
+    .services-inner{max-width:1280px;margin:0 auto;}
+    .services-header{text-align:center;margin-bottom:72px;}
+    .services-header .sec-h2{color:#fff;}
+    .srv-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      gap:1px;background:var(--border-dark);border:1px solid var(--border-dark);
+    }
+    .srv-card{
+      background:var(--black-card);padding:52px 36px;
+      transition:background 250ms;position:relative;overflow:hidden;
+    }
+    .srv-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--gold);transform:scaleX(0);transform-origin:left;
+      transition:transform 350ms ease;
+    }
+    .srv-card:hover{background:var(--black-soft);}
+    .srv-card:hover::before{transform:scaleX(1);}
+    .srv-icon{width:44px;height:44px;margin-bottom:28px;color:var(--gold);}
+    .srv-icon svg{width:100%;height:100%;}
+    .srv-name{
+      font-family:'Cormorant Garamond',serif;
+      font-size:22px;font-weight:400;
+      color:#fff;margin-bottom:14px;letter-spacing:0.02em;
+    }
+    .srv-desc{font-size:13px;line-height:1.8;color:var(--text-light);font-weight:300;}
+
+    /* ── WHY SAHINLER ── */
+    .why{padding:120px 80px;background:var(--black-mid);}
+    .why-inner{max-width:1280px;margin:0 auto;}
+    .why-header{text-align:center;margin-bottom:72px;}
+    .why-grid{
+      display:grid;grid-template-columns:repeat(4,1fr);
+      gap:1px;background:var(--border-dark);border:1px solid var(--border-dark);
+    }
+    .why-card{
+      background:var(--black-card);padding:52px 36px;
+      transition:background 250ms;position:relative;overflow:hidden;
+    }
+    .why-card::before{
+      content:'';position:absolute;top:0;left:0;right:0;height:2px;
+      background:var(--gold);transform:scaleX(0);transform-origin:left;
+      transition:transform 350ms ease;
+    }
+    .why-card:hover{background:var(--black-soft);}
+    .why-card:hover::before{transform:scaleX(1);}
+    .why-icon{width:44px;height:44px;margin-bottom:28px;color:var(--gold);}
+    .why-icon svg{width:100%;height:100%;}
+    .why-name{
+      font-family:'Cormorant Garamond',serif;
+      font-size:22px;font-weight:400;
+      color:#fff;margin-bottom:14px;letter-spacing:0.02em;
+    }
+    .why-desc{font-size:13px;line-height:1.8;color:var(--text-light);font-weight:300;}
+
+    /* ── LOCATION ── */
+    .location{
+      padding:72px 80px;background:#fff;
+      border-top:1px solid var(--border-light);
+    }
+    .location-inner{
+      max-width:1280px;margin:0 auto;
+      display:grid;grid-template-columns:1fr 1fr;
+      gap:48px;align-items:stretch;
+    }
+    .location-h2{color:var(--black);margin-bottom:22px;}
+    .info-block{margin-bottom:18px;}
+    .info-lbl{
+      font-size:10px;font-weight:600;letter-spacing:0.2em;
+      text-transform:uppercase;color:var(--gold);margin-bottom:8px;
+    }
+    .info-val{font-size:15px;line-height:1.7;color:var(--text-dark);}
+    .info-val a{color:var(--black);font-weight:500;text-decoration:none;transition:color 200ms;}
+    .info-val a:hover{color:var(--gold);}
+    .hours-row{
+      display:flex;justify-content:space-between;
+      padding:7px 0;border-bottom:1px solid #efefef;font-size:13.5px;
+    }
+    .hours-row:last-child{border-bottom:none;}
+    .hours-day{color:var(--text-muted);}
+    .hours-time{color:var(--text-dark);font-weight:500;}
+    .hours-closed{color:var(--text-muted);}
+    .hours-today{background:rgba(212,175,55,0.08);border-radius:4px;padding-left:8px;margin:0 -8px;}
+    .hours-today .hours-day{color:var(--gold);font-weight:600;}
+    .hours-status{
+      font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;
+      padding:2px 7px;border-radius:8px;margin-left:8px;vertical-align:middle;
+    }
+    .hours-status.open{background:rgba(74,158,111,0.15);color:#2d8a5c;}
+    .hours-status.closed{background:rgba(220,38,38,0.10);color:#c53030;}
+    .loc-ctas{display:flex;gap:12px;flex-wrap:wrap;margin-top:22px;}
+    .btn-dark{
+      display:inline-block;padding:13px 26px;
+      background:var(--black);color:#fff;
+      font-size:11px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;
+      border-radius:2px;text-decoration:none;
+      transition:background 200ms,transform 160ms;
+    }
+    .btn-dark:hover{background:var(--black-soft);transform:translateY(-1px);}
+    .btn-outline-dark{
+      display:inline-block;padding:12px 22px;
+      border:1px solid #ccc;color:var(--text-dark);
+      font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;
+      border-radius:2px;text-decoration:none;
+      transition:border-color 200ms,color 200ms;
+    }
+    .btn-outline-dark:hover{border-color:var(--gold);color:var(--gold);}
+    .loc-map{
+      width:100%;height:100%;min-height:360px;border-radius:2px;
+      overflow:hidden;border:1px solid var(--border-light);
+    }
+    .loc-map iframe{width:100%;height:100%;display:block;border:0;}
+
+    /* ── FOOTER ── */
+    .footer{
+      background:var(--black);padding:72px 80px 32px;
+      border-top:1px solid var(--border-dark);
+    }
+    .footer-inner{
+      max-width:1280px;margin:0 auto;
+      display:grid;grid-template-columns:2fr 1fr 1fr;
+      gap:64px;padding-bottom:48px;
+      border-bottom:1px solid var(--border-dark);
+    }
+    .footer-logo{
+      font-family:'Cormorant Garamond',serif;
+      font-size:18px;font-weight:600;letter-spacing:0.14em;
+      text-transform:uppercase;color:#fff;margin-bottom:10px;
+    }
+    .footer-logo .dot{color:var(--gold);}
+    .footer-brand-sub{font-size:11px;color:var(--text-light);letter-spacing:0.06em;margin-bottom:14px;}
+    .footer-desc{font-size:13px;color:var(--text-light);line-height:1.75;font-weight:300;max-width:280px;}
+    .footer-col-title{
+      font-size:10px;font-weight:600;letter-spacing:0.2em;
+      text-transform:uppercase;color:var(--gold);margin-bottom:20px;
+    }
+    .footer-links{list-style:none;}
+    .footer-links li{margin-bottom:10px;}
+    .footer-links a{
+      font-size:13px;color:var(--text-light);text-decoration:none;
+      transition:color 200ms;font-weight:300;
+    }
+    .footer-links a:hover{color:var(--gold);}
+    .footer-contact-item{font-size:13px;color:var(--text-light);margin-bottom:8px;line-height:1.5;font-weight:300;}
+    .footer-contact-item a{color:var(--text-light);text-decoration:none;transition:color 200ms;}
+    .footer-contact-item a:hover{color:var(--gold);}
+    .footer-bottom{
+      max-width:1280px;margin:0 auto;padding-top:24px;
+      display:flex;justify-content:space-between;align-items:center;
+    }
+    .footer-copy{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:0.04em;}
+    .footer-stars{color:var(--gold);font-size:11px;letter-spacing:1px;}
+
+    /* ── RESPONSIVE ── */
+    @media(max-width:960px){
+      .nav{padding:0 24px;}
+      .nav-links{display:none;}
+      .hero,.about,.services,.why,.location,.footer{padding-left:24px;padding-right:24px;}
+      .hero{grid-template-columns:1fr;padding-top:110px;padding-bottom:60px;gap:48px;}
+      .hero-left{padding-right:0;}
+      .hero-right{justify-content:flex-start;}
+      .hero-img-wrap{width:100%;max-width:340px;}
+      .about-inner,.location-inner{grid-template-columns:1fr;gap:36px;}
+      .about-img-wrap{order:-1;}
+      .srv-grid,.why-grid{grid-template-columns:1fr 1fr;}
+      .loc-map{height:280px;min-height:unset;}
+      .footer-inner{grid-template-columns:1fr;gap:36px;}
+    }
+    @media(max-width:600px){.srv-grid,.why-grid{grid-template-columns:1fr;}}
+  </style>
+</head>
+<body>
+
+<!-- ═══ NAV ════════════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <a href="#top" class="nav-logo">
+    <img src="public/images/sahinler-logo.png" alt="Sahinler Juwelier" style="height:72px;width:auto;display:block;mix-blend-mode:screen;">
+  </a>
+  <ul class="nav-links">
+    <li><a href="#about">Über uns</a></li>
+    <li><a href="#kollektion">Kollektion</a></li>
+    <li><a href="#service">Reparatur &amp; Service</a></li>
+    <li><a href="#location">Kontakt</a></li>
+    <li><a href="javascript:void(0)" class="nav-cta" onclick="if(window.sjCbOpen)window.sjCbOpen()">Termin anfragen</a></li>
+  </ul>
+</nav>
+<script>
+  window.addEventListener('scroll',function(){
+    document.getElementById('nav').classList.toggle('scrolled',window.scrollY>30);
+  });
+</script>
+
+<!-- ═══ HERO ════════════════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="hero-left">
+    <div class="hero-eyebrow">Hagen · Elberfelder Str. 79 · ★ 5.0 Google</div>
+    <h1 class="hero-h1">
+      Schmuck, der Ihre<br><em>Geschichte erzählt</em>
+    </h1>
+    <p class="hero-sub">
+      Hochwertige Schmuckstücke und Uhren seit Jahrzehnten in Hagen –
+      für jeden Anlass, jedes Budget und jeden Geschmack.
+    </p>
+    <div class="hero-ctas">
+      <a href="javascript:void(0)" class="btn-gold" onclick="if(window.sjCbOpen)window.sjCbOpen()">Termin anfragen</a>
+      <a href="#kollektion" class="btn-ghost">Kollektion erkunden →</a>
+    </div>
+    <div class="hero-rating">
+      <span class="hero-stars">★★★★★</span>
+      <span class="hero-rating-text"><span class="hero-rating-num">5.0</span> auf Google</span>
+    </div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-img-wrap">
+      <img src="public/images/sahinler-foto-1.png" alt="Sahinler Juwelier – Exquisite Schmuckstücke">
+      <div class="hero-img-glow"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ÜBER UNS ═════════════════════════════════════════════════ -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="about-text">
+      <div class="sec-eyebrow">Über uns</div>
+      <h2 class="sec-h2">
+        Ihre Juweliere<br><em>mit Herz &amp; Expertise</em>
+      </h2>
+      <p class="about-desc">
+        Sahinler Juwelier steht für jahrzehntelange Leidenschaft und Expertise
+        im Bereich hochwertiger Schmuck und Zeitmesser. Unser Geschäft im Herzen
+        von Hagen ist mehr als ein Laden – es ist ein Ort, wo besondere Momente ihren Anfang nehmen.
+      </p>
+      <p class="about-desc">
+        Von feinen Goldringen über edle Diamantkollektionen bis hin zu
+        Luxusuhren aller Marken – wir beraten Sie persönlich und mit
+        echtem Sachverstand. Ihr Vertrauen ist unser größter Lohn.
+      </p>
+      <div class="about-stats">
+        <div>
+          <div class="about-stat-num">5.0</div>
+          <div class="about-stat-lbl">Google Bewertung</div>
+        </div>
+        <div>
+          <div class="about-stat-num">Au</div>
+          <div class="about-stat-lbl">Gold &amp; Silber</div>
+        </div>
+        <div>
+          <div class="about-stat-num">∞</div>
+          <div class="about-stat-lbl">Individuelle Beratung</div>
+        </div>
+      </div>
+    </div>
+    <div class="about-img-wrap">
+      <img src="public/images/sahinler-foto-2.png" alt="Edle Schmuckstücke bei Sahinler Juwelier">
+      <div class="about-img-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ KOLLEKTION / LEISTUNGEN ══════════════════════════════════ -->
+<section class="services" id="kollektion">
+  <div class="services-inner">
+    <div class="services-header">
+      <span class="sec-eyebrow">Unsere Leistungen</span>
+      <h2 class="sec-h2">Was wir für <em>Sie tun</em></h2>
+    </div>
+    <div class="srv-grid">
+
+      <div class="srv-card">
+        <div class="srv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3h12l3 6-9 12L3 9z"/>
+            <path d="M3 9h18"/>
+            <path d="m12 3-3 6m3-6 3 6"/>
+          </svg>
+        </div>
+        <h3 class="srv-name">Schmuckverkauf</h3>
+        <p class="srv-desc">Exquisite Schmuckstücke in Gold, Silber und Platin – mit echten Diamanten und Edelsteinen für jeden besonderen Moment des Lebens.</p>
+      </div>
+
+      <div class="srv-card" id="service">
+        <div class="srv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="7"/>
+            <polyline points="12 9 12 12 13.5 13.5"/>
+            <path d="m16.51 17.35-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/>
+          </svg>
+        </div>
+        <h3 class="srv-name">Uhrenreparatur</h3>
+        <p class="srv-desc">Professionelle Wartung und Reparatur von Uhren aller Marken – mit Präzision, Erfahrung und moderner Werkzeugausstattung.</p>
+      </div>
+
+      <div class="srv-card">
+        <div class="srv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <h3 class="srv-name">Individuelles Design</h3>
+        <p class="srv-desc">Ihr Traumschmuck nach Maß: Wir fertigen individuelle Einzelstücke nach Ihren Vorstellungen – für unvergessliche Erinnerungen.</p>
+      </div>
+
+      <div class="srv-card">
+        <div class="srv-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/>
+          </svg>
+        </div>
+        <h3 class="srv-name">Schmuckpflege</h3>
+        <p class="srv-desc">Professionelle Reinigung und Restaurierung: Wir bringen Ihren Schmuck wieder zum Strahlen – schonend und fachgerecht.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WARUM SAHINLER ════════════════════════════════════════════ -->
+<section class="why" id="why">
+  <div class="why-inner">
+    <div class="why-header">
+      <span class="sec-eyebrow">Unser Versprechen</span>
+      <h2 class="sec-h2" style="color:#fff;">Warum <em>Sahinler Juwelier</em></h2>
+    </div>
+    <div class="why-grid">
+
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 3h12l3 6-9 12L3 9z"/>
+            <path d="M3 9h18"/>
+            <path d="m12 3-3 6m3-6 3 6"/>
+          </svg>
+        </div>
+        <h3 class="why-name">Handwerkliche Qualität</h3>
+        <p class="why-desc">Jahrzehnte Erfahrung in feinstem Schmuck – jedes Stück sorgfältig ausgewählt und geprüft.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+            <circle cx="9" cy="7" r="4"/>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+          </svg>
+        </div>
+        <h3 class="why-name">Vertrauen &amp; Beratung</h3>
+        <p class="why-desc">Persönliche Betreuung für jeden Kunden – wir nehmen uns Zeit für Sie und Ihre Wünsche.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="7"/>
+            <polyline points="12 9 12 12 13.5 13.5"/>
+            <path d="m16.51 17.35-.35 3.83a2 2 0 0 1-2 1.82H9.83a2 2 0 0 1-2-1.82l-.35-3.83m.01-10.7.35-3.83A2 2 0 0 1 9.83 1h4.35a2 2 0 0 1 2 1.82l.35 3.83"/>
+          </svg>
+        </div>
+        <h3 class="why-name">Reparatur &amp; Service</h3>
+        <p class="why-desc">Professionelle Instandhaltung und Restauration – für Uhren und Schmuck aller Art und Marken.</p>
+      </div>
+
+      <div class="why-card">
+        <div class="why-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20h9"/>
+            <path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/>
+          </svg>
+        </div>
+        <h3 class="why-name">Individuelle Anfertigung</h3>
+        <p class="why-desc">Maßgeschneiderte Schmuckstücke nach Wunsch – Ihr Traumschmuck, einzigartig und unverwechselbar.</p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STANDORT & KONTAKT ════════════════════════════════════════ -->
+<section class="location" id="location">
+  <div class="location-inner">
+    <div>
+      <div class="sec-eyebrow">Standort &amp; Kontakt</div>
+      <h2 class="sec-h2 location-h2">
+        Besuchen Sie uns<br><em>in Hagen</em>
+      </h2>
+
+      <div class="info-block">
+        <div class="info-lbl">Adresse</div>
+        <div class="info-val">Elberfelder Str. 79<br>58095 Hagen</div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-lbl">Telefon</div>
+        <div class="info-val"><a href="tel:+491634460110">+49 163 4460110</a></div>
+      </div>
+
+      <div class="info-block">
+        <div class="info-lbl">Öffnungszeiten <span style="font-weight:300;color:var(--text-muted);font-size:9px;">(bitte bestätigen)</span></div>
+        <div id="sj-hours-grid"></div>
+        <script>
+        (function(){
+          var SCHED=[
+            {de:'Montag',    s:[[10,0,18,30]]},
+            {de:'Dienstag',  s:[[10,0,18,30]]},
+            {de:'Mittwoch',  s:[[10,0,18,30]]},
+            {de:'Donnerstag',s:[[10,0,18,30]]},
+            {de:'Freitag',   s:[[10,0,18,30]]},
+            {de:'Samstag',   s:[[10,0,15,0]]},
+            {de:'Sonntag',   s:[]}
+          ];
+          var now=new Date(),jsDay=now.getDay();
+          var todayIdx=jsDay===0?6:jsDay-1;
+          var nowMin=now.getHours()*60+now.getMinutes();
+          var isOpen=SCHED[todayIdx].s.some(function(r){return nowMin>=r[0]*60+r[1]&&nowMin<r[2]*60+r[3];});
+          var grid=document.getElementById('sj-hours-grid');
+          SCHED.forEach(function(h,i){
+            var isToday=i===todayIdx;
+            var timeStr=h.s.length?h.s.map(function(r){return r[0]+':'+(r[1]<10?'0':'')+r[1]+'–'+r[2]+':'+(r[3]<10?'0':'')+r[3];}).join(', '):'Geschlossen';
+            var row=document.createElement('div');
+            row.className='hours-row'+(isToday?' hours-today':'');
+            var badge=isToday?'<span class="hours-status '+(isOpen?'open':'closed')+'">'+(isOpen?'Geöffnet':'Geschlossen')+'</span>':'';
+            row.innerHTML='<span class="hours-day">'+h.de+badge+'</span><span class="'+(h.s.length?'hours-time':'hours-closed')+'">'+timeStr+'</span>';
+            grid.appendChild(row);
+          });
+        })();
+        </script>
+      </div>
+
+      <div class="loc-ctas">
+        <a href="tel:+491634460110" class="btn-dark">Jetzt anrufen →</a>
+        <a href="https://www.google.com/maps?q=Elberfelder+Str.+79,+58095+Hagen" target="_blank" rel="noopener" class="btn-outline-dark">Route planen</a>
+      </div>
+    </div>
+
+    <div class="loc-map">
+      <iframe
+        src="https://www.google.com/maps?q=Elberfelder+Str.+79,+58095+Hagen,+Germany&output=embed"
+        width="100%" height="100%" style="border:0;" allowfullscreen loading="lazy"
+        title="Sahinler Juwelier – Elberfelder Str. 79, 58095 Hagen">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div>
+      <img src="public/images/sahinler-logo.png" alt="Sahinler Juwelier" style="height:72px;width:auto;display:block;mix-blend-mode:screen;margin-bottom:12px;">
+      <div class="footer-brand-sub">Elberfelder Str. 79 · 58095 Hagen</div>
+      <p class="footer-desc">
+        Ihr vertrauensvoller Juwelier in Hagen für hochwertige Schmuckstücke,
+        Uhren und individuelle Anfertigungen.
+      </p>
+    </div>
+    <div>
+      <div class="footer-col-title">Leistungen</div>
+      <ul class="footer-links">
+        <li><a href="#kollektion">Schmuckverkauf</a></li>
+        <li><a href="#service">Uhrenreparatur</a></li>
+        <li><a href="#kollektion">Individuelles Design</a></li>
+        <li><a href="#kollektion">Schmuckpflege</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="footer-col-title">Kontakt</div>
+      <div class="footer-contact-item">Elberfelder Str. 79<br>58095 Hagen</div>
+      <div class="footer-contact-item"><a href="tel:+491634460110">+49 163 4460110</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© 2026 Sahinler Juwelier · Alle Rechte vorbehalten</div>
+    <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:rgba(255,255,255,0.35);">
+      <span class="footer-stars">★★★★★</span> 5.0 auf Google
+    </div>
+  </div>
+</footer>
+
+<script src="chatbot/chatbot.js" defer></script>
+
+</body>
+</html>
