@@ -345,6 +345,87 @@
       .footer-inner{grid-template-columns:1fr;gap:36px;}
     }
     @media(max-width:600px){.srv-grid,.why-grid{grid-template-columns:1fr;}}
+
+    /* ── GALLERY (Kollektion) ── */
+    .gallery{padding:120px 80px;background:var(--cream);}
+    .gallery-inner{max-width:1360px;margin:0 auto;}
+    .gallery-header{text-align:center;margin-bottom:56px;}
+    .gl-carousel{position:relative;padding:0 60px;}
+    .gl-track{display:flex;gap:14px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .gl-track::-webkit-scrollbar{display:none;}
+    .g-item{scroll-snap-align:start;flex:0 0 calc((100% - 42px)/4);aspect-ratio:4/5;position:relative;overflow:hidden;border-radius:2px;cursor:pointer;background:var(--black-card);}
+    .g-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 0.6s cubic-bezier(0.22,1,0.36,1);}
+    .g-item:hover img{transform:scale(1.06);}
+    .g-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(10,10,10,0.78) 0%,rgba(212,175,55,0.08) 100%);opacity:0;transition:opacity 0.3s;display:flex;align-items:flex-end;padding:20px;}
+    .g-item:hover .g-overlay{opacity:1;}
+    .g-overlay-text{color:#fff;font-family:'Cormorant Garamond',serif;font-size:17px;font-weight:500;transform:translateY(8px);transition:transform 0.3s;}
+    .g-item:hover .g-overlay-text{transform:translateY(0);}
+    .gl-arrow,.rv-arrow{position:absolute;top:50%;transform:translateY(-50%);width:44px;height:44px;border-radius:50%;background:var(--black);border:1px solid var(--gold-border);color:var(--gold);display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 4px 16px rgba(0,0,0,0.18);transition:background 0.2s,border-color 0.2s,transform 0.15s;z-index:2;}
+    .gl-arrow svg,.rv-arrow svg{width:18px;height:18px;}
+    .gl-arrow:hover,.rv-arrow:hover{background:var(--gold);color:var(--black);}
+    .gl-arrow:active,.rv-arrow:active{transform:translateY(-50%) scale(0.94);}
+    .gl-arrow-prev,.rv-arrow-prev{left:0;}
+    .gl-arrow-next,.rv-arrow-next{right:0;}
+    .gl-dots,.rv-dots{display:flex;flex-wrap:wrap;justify-content:center;gap:8px;margin-top:28px;}
+    .gl-dot,.rv-dot{width:8px;height:8px;border-radius:50%;border:none;background:var(--gold-border);cursor:pointer;padding:0;transition:background 0.2s,transform 0.15s;}
+    .gl-dot:hover,.rv-dot:hover{background:var(--gold-light);}
+    .gl-dot.active,.rv-dot.active{background:var(--gold);transform:scale(1.25);}
+    @media(max-width:1100px){.g-item{flex:0 0 calc((100% - 28px)/3);}}
+    @media(max-width:900px){.gl-carousel,.rv-carousel{padding:0 48px;}.g-item{flex:0 0 calc((100% - 14px)/2);}}
+    @media(max-width:480px){.gl-carousel,.rv-carousel{padding:0 40px;}.gl-arrow,.rv-arrow{width:36px;height:36px;}.gl-arrow svg,.rv-arrow svg{width:15px;height:15px;}}
+
+    /* ── LIGHTBOX ── */
+    .lightbox{display:none;position:fixed;inset:0;z-index:200;background:rgba(0,0,0,0.92);align-items:center;justify-content:center;}
+    .lightbox.open{display:flex;}
+    .lightbox-img{max-width:90vw;max-height:90vh;border-radius:2px;box-shadow:0 32px 80px rgba(0,0,0,0.6);}
+    .lightbox-close{position:absolute;top:24px;right:32px;font-size:32px;color:#fff;cursor:pointer;background:none;border:none;line-height:1;transition:color 0.2s;}
+    .lightbox-close:hover{color:var(--gold);}
+    .lb-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(212,175,55,0.16);border:1px solid var(--gold-border);color:#fff;border-radius:2px;padding:12px 16px;font-size:20px;cursor:pointer;transition:background 0.2s;user-select:none;}
+    .lb-prev{left:24px;}
+    .lb-next{right:24px;}
+    .lb-nav:hover{background:var(--gold);color:var(--black);}
+
+    /* ── BEWERTUNGEN ── */
+    .reviews{padding:120px 80px;background:var(--off-white);}
+    .reviews-inner{max-width:1280px;margin:0 auto;}
+    .reviews-header{text-align:center;margin-bottom:24px;}
+    .reviews-summary{display:flex;align-items:center;justify-content:center;gap:16px;margin-top:24px;flex-wrap:wrap;margin-bottom:56px;}
+    .reviews-score{font-family:'Cormorant Garamond',serif;font-size:48px;font-weight:300;color:var(--black);line-height:1;}
+    .reviews-stars-big{color:var(--gold);font-size:24px;letter-spacing:3px;}
+    .reviews-meta-label{font-size:13px;font-weight:600;color:var(--text-dark);letter-spacing:0.04em;text-align:left;}
+    .reviews-meta-count{font-size:11.5px;color:var(--text-muted);margin-top:2px;text-align:left;}
+    .rv-carousel{position:relative;padding:0 60px;}
+    .rv-track{display:flex;gap:20px;overflow-x:auto;scroll-behavior:smooth;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+    .rv-track::-webkit-scrollbar{display:none;}
+    .rv-card{scroll-snap-align:start;flex:0 0 calc((100% - 40px)/3);background:#fff;border:1px solid var(--border-light);border-radius:2px;padding:26px 24px;display:flex;flex-direction:column;gap:14px;min-height:150px;box-shadow:0 2px 12px rgba(0,0,0,0.04);transition:box-shadow 0.2s,transform 0.15s;}
+    .rv-card:hover{box-shadow:0 8px 28px rgba(0,0,0,0.09);transform:translateY(-2px);}
+    .rv-stars{color:var(--gold);font-size:15px;letter-spacing:2px;}
+    .rv-text{font-size:14px;color:var(--text-dark);line-height:1.7;flex:1;font-weight:300;}
+    .rv-author{display:flex;align-items:center;gap:10px;margin-top:auto;}
+    .rv-avatar{width:36px;height:36px;border-radius:50%;background:var(--gold);color:var(--black);font-family:'Cormorant Garamond',serif;font-size:16px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+    .rv-name{font-size:13px;font-weight:600;color:var(--black);letter-spacing:0.01em;}
+    .rv-source{font-size:11px;color:var(--text-muted);letter-spacing:0.02em;}
+    .reviews-footer{text-align:center;margin-top:40px;}
+    .reviews-google-btn{display:inline-flex;align-items:center;gap:10px;border:1px solid #ccc;color:var(--text-dark);font-size:13px;font-weight:500;padding:13px 28px;border-radius:2px;text-decoration:none;transition:border-color 0.2s,background 0.2s,color 0.2s;}
+    .reviews-google-btn:hover{border-color:var(--gold);color:var(--gold);}
+    @media(max-width:900px){.reviews{padding:80px 24px;}.rv-card{flex-basis:calc((100% - 20px)/2);}.rv-carousel{padding:0 48px;}}
+    @media(max-width:600px){.reviews{padding:64px 16px;}.rv-card{flex-basis:100%;}.rv-carousel{padding:0 40px;}.reviews-score{font-size:38px;}.reviews-stars-big{font-size:19px;}}
+
+    /* ── INSTAGRAM ── */
+    .insta-simple{padding:96px 80px;background:#fff;text-align:center;border-top:1px solid var(--border-light);}
+    .insta-simple-inner{max-width:560px;margin:0 auto;display:flex;flex-direction:column;align-items:center;gap:26px;}
+    .insta-simple-icon{width:64px;height:64px;display:flex;align-items:center;justify-content:center;filter:drop-shadow(0 8px 20px rgba(212,175,55,0.30));}
+    .insta-simple-icon svg{width:100%;height:100%;}
+    .insta-simple-text{font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--black);line-height:1.4;}
+    .insta-simple-sub{font-size:14.5px;color:var(--text-muted);line-height:1.7;max-width:420px;margin-top:-8px;font-weight:300;}
+    .insta-simple-btn{display:inline-flex;align-items:center;gap:10px;background:var(--gold);color:var(--black);font-size:12px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:15px 34px;border-radius:2px;text-decoration:none;box-shadow:0 4px 20px rgba(212,175,55,0.25);transition:background 0.2s,transform 0.15s,box-shadow 0.2s;}
+    .insta-simple-btn:hover{background:var(--gold-light);transform:translateY(-2px);box-shadow:0 8px 28px rgba(212,175,55,0.35);}
+    .insta-simple-btn:active{transform:translateY(0);}
+    @media(max-width:600px){.insta-simple{padding:64px 16px;}.insta-simple-btn{width:100%;justify-content:center;}}
+
+    @media(max-width:960px){
+      .gallery,.reviews,.insta-simple{padding-left:24px;padding-right:24px;}
+    }
   </style>
 </head>
 <body>
@@ -436,8 +517,42 @@
   </div>
 </section>
 
-<!-- ═══ KOLLEKTION / LEISTUNGEN ══════════════════════════════════ -->
-<section class="services" id="kollektion">
+<!-- ═══ KOLLEKTION (Galerie) ══════════════════════════════════ -->
+<section class="gallery" id="kollektion">
+  <div class="gallery-inner">
+    <div class="gallery-header">
+      <span class="sec-eyebrow">Unsere Kollektion</span>
+      <h2 class="sec-h2">Ausgewählte <em>Schmuckstücke</em></h2>
+    </div>
+    <div class="gl-carousel">
+      <button class="gl-arrow gl-arrow-prev" id="glPrev" aria-label="Vorherige Schmuckstücke">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="gl-arrow gl-arrow-next" id="glNext" aria-label="Nächste Schmuckstücke">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="gl-track" id="gl-track">
+        <div class="g-item" onclick="openLightbox(0)"><img src="public/images/sahinler-gallery-1.jpg" alt="Handgeflochtenes Goldarmband" loading="lazy"><div class="g-overlay"><span class="g-overlay-text">Handgeflochtenes Goldarmband</span></div></div>
+        <div class="g-item" onclick="openLightbox(1)"><img src="public/images/sahinler-gallery-2.jpg" alt="Goldarmband mit passendem Ring" loading="lazy"><div class="g-overlay"><span class="g-overlay-text">Armband &amp; Ring-Set</span></div></div>
+        <div class="g-item" onclick="openLightbox(2)"><img src="public/images/sahinler-gallery-3.jpg" alt="Goldarmband mit Blattmotiv" loading="lazy"><div class="g-overlay"><span class="g-overlay-text">Blattmotiv-Armband</span></div></div>
+        <div class="g-item" onclick="openLightbox(3)"><img src="public/images/sahinler-gallery-4.jpg" alt="Goldkette mit Medaillons" loading="lazy"><div class="g-overlay"><span class="g-overlay-text">Kette mit Medaillons</span></div></div>
+        <div class="g-item" onclick="openLightbox(4)"><img src="public/images/sahinler-gallery-5.jpg" alt="Diamant-Halskette mit Anhänger" loading="lazy"><div class="g-overlay"><span class="g-overlay-text">Diamant-Halskette</span></div></div>
+      </div>
+    </div>
+    <div class="gl-dots" id="glDots"></div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightboxOutside(event)">
+  <button class="lightbox-close" onclick="closeLightbox()">✕</button>
+  <button class="lb-nav lb-prev" onclick="lbNav(-1)">&#8249;</button>
+  <img class="lightbox-img" id="lb-img" src="" alt="">
+  <button class="lb-nav lb-next" onclick="lbNav(1)">&#8250;</button>
+</div>
+
+<!-- ═══ LEISTUNGEN ══════════════════════════════════ -->
+<section class="services" id="leistungen">
   <div class="services-inner">
     <div class="services-header">
       <span class="sec-eyebrow">Unsere Leistungen</span>
@@ -555,6 +670,94 @@
   </div>
 </section>
 
+<!-- ═══ BEWERTUNGEN ════════════════════════════════════════ -->
+<section class="reviews" id="bewertungen">
+  <div class="reviews-inner">
+    <div class="reviews-header">
+      <span class="sec-eyebrow">Kundenstimmen</span>
+      <h2 class="sec-h2">Was unsere Kunden <em>über uns sagen</em></h2>
+    </div>
+    <div class="reviews-summary">
+      <div class="reviews-score">5.0</div>
+      <div class="reviews-stars-big">★★★★★</div>
+      <div>
+        <div class="reviews-meta-label">Google Bewertung</div>
+        <div class="reviews-meta-count">Basierend auf echten Kundenbewertungen</div>
+      </div>
+    </div>
+    <div class="rv-carousel">
+      <button class="rv-arrow rv-arrow-prev" id="rvPrev" aria-label="Vorherige Bewertungen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <button class="rv-arrow rv-arrow-next" id="rvNext" aria-label="Nächste Bewertungen">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+      <div class="rv-track" id="rvTrack">
+
+        <div class="rv-card">
+          <div class="rv-stars">★★★★★</div>
+          <p class="rv-text">„Gute Juwelier"</p>
+          <div class="rv-author"><div class="rv-avatar">M</div><div><div class="rv-name">Mehmet Yılmaz</div><div class="rv-source">Google-Rezension · vor einem Jahr</div></div></div>
+        </div>
+
+        <div class="rv-card">
+          <div class="rv-stars">★★★★★</div>
+          <div class="rv-author"><div class="rv-avatar">M</div><div><div class="rv-name">Mahsum Er</div><div class="rv-source">Google-Rezension · vor einem Jahr</div></div></div>
+        </div>
+
+        <div class="rv-card">
+          <div class="rv-stars">★★★★★</div>
+          <div class="rv-author"><div class="rv-avatar">V</div><div><div class="rv-name">VİZON YAPI İNŞAAT VE TEKSTİL TİC.LTD.ŞTİ.</div><div class="rv-source">Google-Rezension · bearbeitet vor einem Jahr</div></div></div>
+        </div>
+
+        <div class="rv-card">
+          <div class="rv-stars">★★★★★</div>
+          <div class="rv-author"><div class="rv-avatar">A</div><div><div class="rv-name">Al Yazmalim</div><div class="rv-source">Google-Rezension · vor einem Jahr</div></div></div>
+        </div>
+
+        <div class="rv-card">
+          <div class="rv-stars">★★★★★</div>
+          <div class="rv-author"><div class="rv-avatar">H</div><div><div class="rv-name">Heyamo 61</div><div class="rv-source">Google-Rezension · vor einem Jahr</div></div></div>
+        </div>
+
+      </div>
+    </div>
+    <div class="rv-dots" id="rvDots"></div>
+    <div class="reviews-footer">
+      <a class="reviews-google-btn" href="https://www.google.com/maps?q=Elberfelder+Str.+79,+58095+Hagen" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/><path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/></svg>
+        Alle Bewertungen auf Google ansehen
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ INSTAGRAM ════════════════════════════════════════ -->
+<section class="insta-simple" id="instagram">
+  <div class="insta-simple-inner">
+    <div class="insta-simple-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="url(#sjInstaGoldGrad)" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" aria-label="Instagram">
+        <defs>
+          <linearGradient id="sjInstaGoldGrad" x1="0" y1="0" x2="24" y2="24" gradientUnits="userSpaceOnUse">
+            <stop offset="0%" stop-color="var(--gold-light)"/>
+            <stop offset="55%" stop-color="var(--gold)"/>
+            <stop offset="100%" stop-color="#9c7a1f"/>
+          </linearGradient>
+        </defs>
+        <rect x="2" y="2" width="20" height="20" rx="5.5" ry="5.5"/>
+        <circle cx="12" cy="12" r="4.6"/>
+        <circle cx="17.6" cy="6.4" r="0.9" fill="var(--gold)" stroke="none"/>
+      </svg>
+    </div>
+    <h2 class="insta-simple-text">Verpassen Sie keine neuen Produkte mehr — besuchen Sie uns auf Instagram!</h2>
+    <p class="insta-simple-sub">Neue Kollektionen, exklusive Stücke und besondere Momente — täglich auf Instagram.</p>
+    <a class="insta-simple-btn" href="https://www.instagram.com/sahinlerjuwelier/" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+      Besuchen Sie unser Instagram →
+    </a>
+  </div>
+</section>
+
 <!-- ═══ STANDORT & KONTAKT ════════════════════════════════════════ -->
 <section class="location" id="location">
   <div class="location-inner">
@@ -636,10 +839,10 @@
     <div>
       <div class="footer-col-title">Leistungen</div>
       <ul class="footer-links">
-        <li><a href="#kollektion">Schmuckverkauf</a></li>
+        <li><a href="#leistungen">Schmuckverkauf</a></li>
         <li><a href="#service">Uhrenreparatur</a></li>
-        <li><a href="#kollektion">Individuelles Design</a></li>
-        <li><a href="#kollektion">Schmuckpflege</a></li>
+        <li><a href="#leistungen">Individuelles Design</a></li>
+        <li><a href="#leistungen">Schmuckpflege</a></li>
       </ul>
     </div>
     <div>
@@ -656,6 +859,135 @@
   </div>
 </footer>
 
+<script>
+// Generic auto-advancing carousel (used for both the gallery and the reviews)
+function initCarousel(opts) {
+  const track = document.getElementById(opts.trackId);
+  const dotsWrap = document.getElementById(opts.dotsId);
+  const prevBtn = document.getElementById(opts.prevId);
+  const nextBtn = document.getElementById(opts.nextId);
+  if (!track) return;
+  const items = Array.from(track.children);
+  const AUTO_MS = opts.autoMs;
+  const RESUME_DELAY = 6500;
+  let perView = 1, totalPages = 1, current = 0;
+  let autoTimer = null, resumeTimer = null, programmatic = false, programmaticTimeout = null;
+
+  function computePerView() {
+    const w = window.innerWidth;
+    for (const [maxW, n] of opts.breakpoints) { if (w <= maxW) return n; }
+    return opts.defaultPerView;
+  }
+
+  function updateDots() {
+    Array.from(dotsWrap.children).forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  function buildDots() {
+    dotsWrap.innerHTML = '';
+    for (let i = 0; i < totalPages; i++) {
+      const d = document.createElement('button');
+      d.className = opts.dotClass;
+      d.setAttribute('aria-label', `Seite ${i + 1}`);
+      d.addEventListener('click', () => { goTo(i); pauseThenResume(); });
+      dotsWrap.appendChild(d);
+    }
+    updateDots();
+  }
+
+  function goTo(page) {
+    if (totalPages <= 1) return;
+    current = ((page % totalPages) + totalPages) % totalPages;
+    programmatic = true;
+    clearTimeout(programmaticTimeout);
+    track.scrollTo({ left: current * track.clientWidth, behavior: 'smooth' });
+    programmaticTimeout = setTimeout(() => { programmatic = false; }, 700);
+    updateDots();
+  }
+
+  function startAuto() {
+    clearInterval(autoTimer);
+    if (totalPages <= 1) return;
+    autoTimer = setInterval(() => goTo(current + 1), AUTO_MS);
+  }
+  function stopAuto() { clearInterval(autoTimer); }
+  function pauseThenResume() {
+    stopAuto();
+    clearTimeout(resumeTimer);
+    resumeTimer = setTimeout(startAuto, RESUME_DELAY);
+  }
+
+  function setup() {
+    perView = computePerView();
+    totalPages = Math.max(1, Math.ceil(items.length / perView));
+    current = Math.min(current, totalPages - 1);
+    buildDots();
+  }
+
+  prevBtn.addEventListener('click', () => { goTo(current - 1); pauseThenResume(); });
+  nextBtn.addEventListener('click', () => { goTo(current + 1); pauseThenResume(); });
+  track.addEventListener('pointerdown', pauseThenResume);
+  track.addEventListener('scroll', () => {
+    if (programmatic) return;
+    current = Math.round(track.scrollLeft / track.clientWidth);
+    updateDots();
+    pauseThenResume();
+  }, { passive: true });
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => { setup(); goTo(current); }, 200);
+  });
+
+  setup();
+  startAuto();
+}
+
+initCarousel({
+  trackId: 'gl-track', dotsId: 'glDots', prevId: 'glPrev', nextId: 'glNext',
+  dotClass: 'gl-dot', autoMs: 3800, defaultPerView: 4,
+  breakpoints: [[900, 2], [1100, 3]],
+});
+
+initCarousel({
+  trackId: 'rvTrack', dotsId: 'rvDots', prevId: 'rvPrev', nextId: 'rvNext',
+  dotClass: 'rv-dot', autoMs: 4500, defaultPerView: 3,
+  breakpoints: [[600, 1], [900, 2]],
+});
+
+// Lightbox for the gallery
+const sjLbImgs = [
+  'public/images/sahinler-gallery-1.jpg','public/images/sahinler-gallery-2.jpg',
+  'public/images/sahinler-gallery-3.jpg','public/images/sahinler-gallery-4.jpg',
+  'public/images/sahinler-gallery-5.jpg'
+];
+let sjLbIdx = 0;
+function openLightbox(idx) {
+  sjLbIdx = idx;
+  document.getElementById('lb-img').src = sjLbImgs[sjLbIdx];
+  document.getElementById('lightbox').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closeLightboxOutside(e) {
+  if (e.target === document.getElementById('lightbox')) closeLightbox();
+}
+function lbNav(dir) {
+  sjLbIdx = (sjLbIdx + dir + sjLbImgs.length) % sjLbImgs.length;
+  document.getElementById('lb-img').src = sjLbImgs[sjLbIdx];
+}
+document.addEventListener('keydown', e => {
+  if (document.getElementById('lightbox').classList.contains('open')) {
+    if (e.key === 'Escape') closeLightbox();
+    if (e.key === 'ArrowLeft') lbNav(-1);
+    if (e.key === 'ArrowRight') lbNav(1);
+  }
+});
+</script>
 <script src="chatbot/chatbot.js" defer></script>
 
 </body>
