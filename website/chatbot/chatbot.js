@@ -176,7 +176,7 @@
     return el('div',
       `width:30px;height:30px;border-radius:50%;background:${G.gold};flex-shrink:0;` +
       `display:flex;align-items:center;justify-content:center;margin-top:2px;`,
-      `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/><path d="m12 3-3 6m3-6 3 6"/></svg>`
+      `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`
     );
   }
 
@@ -303,7 +303,7 @@
   const hAvatar = el('div',
     `width:40px;height:40px;border-radius:50%;background:${G.gold};` +
     `display:flex;align-items:center;justify-content:center;flex-shrink:0;`,
-    `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2" stroke-linecap="round"><path d="M6 3h12l3 6-9 12L3 9z"/><path d="M3 9h18"/><path d="m12 3-3 6m3-6 3 6"/></svg>`
+    `<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`
   );
   const hInfo = el('div', `flex:1;`);
   const hName = el('div', `font-size:15px;font-weight:600;color:#fff;line-height:1.2;`, 'Sahinler Juwelier');
@@ -371,7 +371,7 @@
     `display:flex;align-items:center;justify-content:center;` +
     `box-shadow:0 6px 24px rgba(212,175,55,0.4),0 2px 8px rgba(0,0,0,0.3);` +
     `transition:transform 200ms,box-shadow 200ms;position:relative;`,
-    `<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`
+    `<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="${G.black}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/></svg>`
   );
   btn.id = 'sj-btn';
   btn.onmouseenter = () => { btn.style.transform = 'scale(1.08)'; btn.style.boxShadow = `0 10px 30px rgba(212,175,55,0.5),0 2px 8px rgba(0,0,0,0.3)`; };
