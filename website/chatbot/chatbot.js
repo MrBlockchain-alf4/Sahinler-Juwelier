@@ -1,6 +1,7 @@
 /**
  * Sahinler Juwelier – Chatbot Widget
- * German language, appointment booking flow
+ * German language, Q&A + Gold-Rechner. No data collection, no online
+ * appointment booking - visitors are always pointed to visit or call.
  * Embed: <script src="/chatbot/chatbot.js" defer></script>
  */
 (function () {
@@ -31,29 +32,47 @@
     address:  'Elberfelder Str. 79, 58095 Hagen',
     phone:    '+49 163 4460110',
     phoneHref:'tel:+491634460110',
-    services: [
-      'Schmuckberatung & Kauf',
-      'Uhrenreparatur',
-      'Individuelles Design',
-      'Schmuckpflege & Reinigung',
-      'Allgemeine Frage',
-    ],
   };
+
+  /* ── GOLD-RECHNER ──
+     Reference gold value per gram by purity - this is the shared
+     market baseline; the -15% factor below is where the shop's own
+     buy-back margin would go. Update GOLD_PER_G with a fresh spot
+     price periodically, and adjust the 0.85 factor if the real
+     in-store margin differs. */
+  const GOLD_PER_G = { '999': 122, '750': 91, '585': 71, '333': 41 };
+  function fmtEUR(n) {
+    try { return Math.round(n).toLocaleString('de-DE'); } catch (e) { return String(Math.round(n)); }
+  }
+
+  const CALC_TYPE_CHIPS = [
+    { label: '999er · 24 Karat' },
+    { label: '750er · 18 Karat' },
+    { label: '585er · 14 Karat' },
+    { label: '333er · 8 Karat' },
+    { label: 'Abbrechen' },
+  ];
+
+  const DEFAULT_CHIPS = [
+    { label: 'Gold Rechner' },
+    { label: 'Standort & Kontakt' },
+    { label: 'Öffnungszeiten' },
+    { label: 'Uhrenreparatur' },
+  ];
 
   /* ── STATE ── */
   let open = false;
-  let bState = null; // null | 'treatment' | 'name' | 'phone' | 'email' | 'datetime' | 'done'
+  let bState = null; // null | 'calc-type' | 'calc-grams'
   let bData  = {};
-
-  const SERVICES = BIZ.services.map(s => ({ label: s }));
 
   /* ── INTENT ── */
   function intent(raw) {
     const m = raw.toLowerCase();
     const has = (...w) => w.some(x => m.includes(x));
-    if (has('termin', 'buchen', 'buchung', 'reserv', 'anmeld', 'anfragen'))      return 'book';
+    if (has('gold rechner', 'goldrechner', 'goldwert', 'gold berechnen', 'schätz'))  return 'goldcalc';
+    if (has('termin', 'buchen', 'buchung', 'reserv', 'anmeld', 'anfragen'))      return 'visit';
     if (has('öffnungszeit', 'öffnet', 'wann', 'schließt', 'bis wann', 'geöffnet')) return 'hours';
-    if (has('adresse', 'wo ', 'standort', 'anfahrt', 'elberfelder', 'hagen'))     return 'location';
+    if (has('adresse', 'wo ', 'standort', 'anfahrt', 'elberfelder', 'hagen', 'kontakt')) return 'location';
     if (has('telefon', 'nummer', 'anruf', 'tel', 'rufnummer', 'anrufen'))         return 'phone';
     if (has('gold', 'silber', 'ring', 'kette', 'armband', 'diamant', 'edelstein')) return 'jewelry';
     if (has('uhr', 'watch', 'reparatur', 'wartung', 'uhren'))                     return 'watch';
@@ -66,65 +85,80 @@
 
   /* ── RESPONSE BUILDER ── */
   function respond(raw) {
-    /* booking flow */
-    if (bState === 'treatment') {
-      bData.treatment = raw.trim();
-      bState = 'name';
-      return addBot(`Danke! Sie interessieren sich für <strong>${bData.treatment}</strong>.<br>Wie heißen Sie?`);
+    const trimmed = raw.trim();
+
+    /* cancel out of the calculator */
+    if (trimmed === 'Abbrechen') {
+      bState = null; bData = {};
+      return addBot('Kein Problem! Wie kann ich Ihnen sonst helfen?', DEFAULT_CHIPS);
     }
-    if (bState === 'name') {
-      if (raw.trim().length < 2) return addBot('Bitte geben Sie Ihren Namen ein.');
-      bData.name = raw.trim();
-      bState = 'phone';
-      return addBot(`Schön, ${bData.name}! Ihre Telefonnummer?`);
+
+    /* start the calculator */
+    if (bState === null && (trimmed === 'Gold Rechner' || intent(raw) === 'goldcalc')) {
+      bState = 'calc-type';
+      return addBot('Ich helfe Ihnen gerne beim Schätzen des Goldwerts!<br>Welche Legierung hat Ihr Gold?', CALC_TYPE_CHIPS);
     }
-    if (bState === 'phone') {
-      bData.phone = raw.trim();
-      bState = 'email';
-      return addBot('Und Ihre E-Mail-Adresse?');
+
+    /* karat step */
+    const karatMatch = trimmed.match(/^(999|750|585|333)er/);
+    if (bState === 'calc-type' && karatMatch) {
+      bData.calcType = karatMatch[1];
+      bState = 'calc-grams';
+      return addBot(`Gewählt: <strong>${trimmed}</strong>.<br>Wie viele Gramm haben Sie? (z. B. 12.5 oder 8)`, [{ label: 'Abbrechen' }]);
     }
-    if (bState === 'email') {
-      bData.email = raw.trim();
-      bState = 'datetime';
-      return addBot('Super! Wann hätten Sie einen bevorzugten Termin?');
+    if (bState === 'calc-type') {
+      return addBot('Bitte wählen Sie eine der Legierungen aus.', CALC_TYPE_CHIPS);
     }
-    if (bState === 'datetime') {
-      bData.datetime = raw.trim();
-      bState = 'done';
-      return addBot(`Vielen Dank! Wir melden uns bald unter <strong>${bData.phone}</strong>. Bis dann! 💎`);
+
+    /* grams step -> result */
+    if (bState === 'calc-grams') {
+      const m = trimmed.replace(',', '.').match(/\d+(\.\d+)?/);
+      if (!m) return addBot('Bitte geben Sie ein gültiges Gewicht ein, z. B. 12.5', [{ label: 'Abbrechen' }]);
+      const g = parseFloat(m[0]);
+      if (g <= 0 || g > 9999) return addBot('Bitte ein realistisches Gewicht eingeben, z. B. 15.', [{ label: 'Abbrechen' }]);
+      const pricePerG = GOLD_PER_G[bData.calcType] || 50;
+      const estimate = Math.round(g * pricePerG * 0.85);
+      const display = m[0].replace('.', ',');
+      const type = bData.calcType;
+      bState = null; bData = {};
+      return addBot(
+        `Schätzwert für ${display} g ${type}er Gold:<br><br>💰 ca. <strong>${fmtEUR(estimate)} €</strong><br><br>` +
+        `Das ist ein unverbindlicher Richtwert. Den genauen Ankaufspreis bestimmen wir kostenlos direkt im Geschäft.`,
+        DEFAULT_CHIPS
+      );
     }
 
     const i = intent(raw);
     switch (i) {
-      case 'book':
-        bState = 'treatment';
-        bData = {};
-        return addBot('Gerne! Womit können wir Ihnen helfen?', SERVICES);
+      case 'goldcalc':
+        bState = 'calc-type';
+        return addBot('Ich helfe Ihnen gerne beim Schätzen des Goldwerts!<br>Welche Legierung hat Ihr Gold?', CALC_TYPE_CHIPS);
+      case 'visit':
+      case 'location':
+        return addBot(
+          `Wir freuen uns auf Ihren Besuch – ganz ohne Online-Termin!<br><br>` +
+          `📍 <strong>${BIZ.address}</strong><br>` +
+          `☎️ <a href="${BIZ.phoneHref}" style="color:${G.gold};font-weight:600;">${BIZ.phone}</a><br><br>` +
+          `Mo–Fr 10:00–18:30 Uhr, Sa 10:00–15:00 Uhr. Kommen Sie einfach vorbei!`
+        );
       case 'hours':
         return addBot('Wir sind <strong>Mo–Fr 10:00–18:30 Uhr</strong> und <strong>Sa 10:00–15:00 Uhr</strong> für Sie da. Bitte erfragen Sie aktuelle Zeiten direkt telefonisch.');
-      case 'location':
-        return addBot(`Sie finden uns in der <strong>${BIZ.address}</strong>.<br>Wir freuen uns auf Ihren Besuch!`);
       case 'phone':
         return addBot(`Rufen Sie uns an: <a href="${BIZ.phoneHref}" style="color:${G.gold};font-weight:600;font-size:16px;">${BIZ.phone}</a>`);
       case 'jewelry':
-        return addBot('Wir führen eine exquisite Auswahl an Schmuck in <strong>Gold, Silber und Platin</strong> – mit echten Diamanten und Edelsteinen. Besuchen Sie uns oder vereinbaren Sie eine persönliche Beratung!', [{ label: 'Termin anfragen' }]);
+        return addBot('Wir führen eine exquisite Auswahl an Schmuck in <strong>Gold, Silber und Platin</strong> – mit echten Diamanten und Edelsteinen. Besuchen Sie uns gerne unverbindlich!', [{ label: 'Gold Rechner' }, { label: 'Standort & Kontakt' }]);
       case 'watch':
-        return addBot('Unsere <strong>Uhrenreparatur</strong> ist professionell und präzise – für alle Marken und Modelle. Bringen Sie Ihre Uhr einfach vorbei oder vereinbaren Sie einen Termin!', [{ label: 'Termin anfragen' }]);
+        return addBot('Unsere <strong>Uhrenreparatur</strong> ist professionell und präzise – für alle Marken und Modelle. Bringen Sie Ihre Uhr einfach vorbei, ganz ohne Termin!', [{ label: 'Standort & Kontakt' }]);
       case 'custom':
-        return addBot('Wir fertigen <strong>individuelle Schmuckstücke</strong> nach Ihren Vorstellungen – Ihr Traumschmuck, einzigartig und nach Maß. Vereinbaren Sie ein Beratungsgespräch!', [{ label: 'Termin anfragen' }]);
+        return addBot('Wir fertigen <strong>individuelle Schmuckstücke</strong> nach Ihren Vorstellungen – Ihr Traumschmuck, einzigartig und nach Maß. Kommen Sie gerne für ein Beratungsgespräch vorbei!', [{ label: 'Standort & Kontakt' }]);
       case 'cleaning':
         return addBot('Unsere <strong>professionelle Schmuckreinigung</strong> bringt Ihren Schmuck wieder zum Strahlen – schonend und fachgerecht. Kommen Sie einfach vorbei!');
       case 'price':
-        return addBot(`Für genaue Preisinformationen kontaktieren Sie uns bitte direkt unter <a href="${BIZ.phoneHref}" style="color:${G.gold};font-weight:600;">${BIZ.phone}</a>. Wir beraten Sie gerne!`);
+        return addBot(`Für genaue Preisinformationen kontaktieren Sie uns bitte direkt unter <a href="${BIZ.phoneHref}" style="color:${G.gold};font-weight:600;">${BIZ.phone}</a>, oder nutzen Sie unseren Gold Rechner für eine erste Einschätzung.`, [{ label: 'Gold Rechner' }]);
       case 'bye':
         return addBot('Auf Wiedersehen! Bei Fragen sind wir jederzeit für Sie da. 💎');
       default:
-        return addBot(`Gerne helfe ich weiter! Für persönliche Auskunft erreichen Sie uns unter <a href="${BIZ.phoneHref}" style="color:${G.gold};font-weight:600;">${BIZ.phone}</a>.`, [
-          { label: 'Termin anfragen' },
-          { label: 'Öffnungszeiten' },
-          { label: 'Uhrenreparatur' },
-          { label: 'Schmuck ansehen' },
-        ]);
+        return addBot(`Gerne helfe ich weiter! Für persönliche Auskunft erreichen Sie uns unter <a href="${BIZ.phoneHref}" style="color:${G.gold};font-weight:600;">${BIZ.phone}</a>.`, DEFAULT_CHIPS);
     }
   }
 
@@ -356,9 +390,7 @@
     dot.style.display = open ? 'none' : 'block';
     btn.style.display = (open && window.innerWidth <= 600) ? 'none' : 'flex';
     if (open && msgs.children.length === 0) {
-      bState = 'treatment';
-      bData = {};
-      addBot(`Hallo! 👋 Willkommen bei <strong>Sahinler Juwelier</strong>.<br>Womit kann ich Ihnen helfen?`, SERVICES);
+      addBot(`Hallo! 👋 Willkommen bei <strong>Sahinler Juwelier</strong>.<br>Womit kann ich Ihnen helfen?`, DEFAULT_CHIPS);
     }
     if (open) setTimeout(() => inp.focus(), 120);
   }
